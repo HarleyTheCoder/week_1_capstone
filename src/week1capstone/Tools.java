@@ -47,6 +47,7 @@ public class Tools {
 		String checkSpecial = ("[0123456789@#$%&*()_+=|<>{}\\\\[\\\\]~-]");
 		boolean anyVowels = false;
 		
+		//First makes sure there are no special non-grammatical characters
 		for (int i = 0; i < checkSpecial.length(); i ++) {
 			try {
 				if (word.contains(checkSpecial.substring(i, i + 1))) {
@@ -61,7 +62,7 @@ public class Tools {
 			
 		}
 			
-		
+		//Makes sure there are vowels in word, to ensure words like "my" come out right.
 		for (int i = 0; i < word.length(); i++) {
 			if (i == word.length() - 1 && isVowel(word.substring(i))) {
 				anyVowels = true;
@@ -70,10 +71,7 @@ public class Tools {
 			}
 		}
 		
-		if (!anyVowels) {
-			return word;
-		}
-		
+		//Edits words after finding vowel
 		if (isVowel(word.substring(0, 1))) {
 			newWord = word + "way";
 		} else {
@@ -88,14 +86,16 @@ public class Tools {
 				}
 			}
 		}
-		
+		//Check to make sure the case and certain characters are correct
 		newWord = fixCase(word, newWord);
 		newWord = fixNonAlpha(newWord);
+		
+		//return output
 		return newWord;
 	} 
 	
 	
-	//Makes sure the word stays in the correct case
+	//Makes sure the word stays in the correct case.
 	public static String fixCase(String word, String newWord) {
 		if (word.equals(word.toUpperCase())) {
 			return newWord.toUpperCase();
@@ -106,6 +106,26 @@ public class Tools {
 			return newWord.toLowerCase();
 		}
 	}
+	
+	//This fixes the word "I" in some cases, also "A".
+	public static String[] checkForIA (String[] words) {
+		for (int i = 0; i < words.length; i++) {
+			if (words[i].equals("IWAY")) {
+				if (words.length == 1 || (i == words.length - 1 && words[i - 1].equals(words[i - 1].toLowerCase())) ||
+					!words[i + 1].equals(words[i + 1].toUpperCase())) {
+						words[i] = "Iway";
+				}
+			} else if (words[i].equals("AWAY") && (i == words.length - 1 || i == 0)) {
+					words[i] = "AWAY";
+				}
+			}
+		return words;
+		}
+	//(Idk if ALL possible inputs will work perfectly with that,
+	//but this is an extra thing and I'm already being a perfectionist, so BAM.)
+	
+	//I'll spend all day on a code if I let myself lol.
+	
 	//DISPLAY ALL WORDS AFTER
 	public static void printWords(String[] words) {
 		System.out.println("");

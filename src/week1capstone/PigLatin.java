@@ -10,7 +10,7 @@ public class PigLatin {
 		
 		System.out.println("Welcome to the Pig Latin Translator!");
 		
-		//Loop starts here
+		//"Continue" loop starts here
 		while (true) {
 			
 			System.out.print("\nEnter a line to be translated: ");
@@ -27,15 +27,28 @@ public class PigLatin {
 				}
 			}
 			
-			
+			//Put words into an array to edit them separately
 			String[] words = Tools.splitWords(input); 
 			for (int i = 0; i < words.length; i++) {
 					words[i] = Tools.translateWord(words[i]);
 			}
-
-
-			Tools.printWords(words); //test
 			
+			/*
+			-This next line fixes the case where I becomes IWAY when it shouldn't,
+			or cases where The first word is "A" so it becomes "AWAY", but
+			the rest isn't capitalized.
+			-The decision takes into consideration whether other parts of the sentence
+			are capitalized or not.
+			
+			-I'm not an expert in pig latin, I'm inventing a couple grammar rules, so
+			using "I" in a sentence will usually become "Iway" rather than "iway".
+			 */
+			words = Tools.checkForIA(words);
+
+			//Display words
+			Tools.printWords(words);
+			
+			//Continue or nay
 			System.out.print("\n\nTranslate another line? (y/n): ");
 			while (true) {
 				cont = scan.nextLine().toLowerCase();
@@ -54,5 +67,3 @@ public class PigLatin {
 	}
 	
 }
-		
-	
